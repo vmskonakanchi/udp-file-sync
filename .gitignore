@@ -1,7 +1,17 @@
-target/
+# In Target Folder Everything except Jar Files
+classes
+generated-sources
+maven-archiver
+maven-status
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Testing folders
+client1
+client2
+server
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

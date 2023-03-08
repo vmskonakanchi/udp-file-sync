@@ -4,6 +4,7 @@ package client;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,9 +14,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class FileManager {
 
-    private static final long FILE_CHECK_INTERVAL = 1000 * 10;
+    protected static final long FILE_CHECK_INTERVAL = 1000 * 10;
 
-    protected static final BlockingQueue<String> filesToSync = new LinkedBlockingQueue<>();
+    protected static final Map<String, Boolean> filesToSync = new ConcurrentHashMap<>();
     private static final Map<String, Long> fileOffset = new ConcurrentHashMap<>();
 
     //crawl the directory and add files to the queue
@@ -37,17 +38,18 @@ public class FileManager {
                     try {
                         RandomAccessFile rFile = new RandomAccessFile(file.toFile(), "r");
                         long recentFileOffset = rFile.length();
-                        if (filesToSync.contains(file.toString())) { // checking if file exists
-                            Long currentFileOffset = fileOffset.computeIfAbsent(file.toString(), k -> 0L);
-                            if (recentFileOffset > currentFileOffset || recentFileOffset < currentFileOffset) {
-                                //data changed - so add the file to fileSync Queue
+                        if (filesToSync.containsKey(file.toString())) { // checking if file exists
+                            long currentFileOffset = fileOffset.computeIfAbsent(file.toString(), k -> 0L);
+                            if (recentFileOffset == currentFileOffset) {
+                                filesToSync.replace(file.toString(), false);
+                            } else {
                                 System.out.println("data changed in : " + file);
-                                filesToSync.put(file.toString());
+                                filesToSync.replace(file.toString(), true);
                                 fileOffset.replace(file.toString(), recentFileOffset);
                             }
                         } else {
                             //there is no file
-                            filesToSync.put(file.toString());
+                            filesToSync.put(file.toString(), true);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

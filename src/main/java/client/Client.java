@@ -1,12 +1,9 @@
 package client;
 
-import server.PacketReceiver;
-
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.nio.file.Path;
-import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client extends FileManager {
     public static void main(String[] args) throws Exception {
@@ -21,22 +18,27 @@ public class Client extends FileManager {
         String storageDirectory = args[1];
         crawlDirectory(storageDirectory);
         try {
+            System.out.println("Reading " + storageDirectory);
+            Thread.sleep(FILE_CHECK_INTERVAL + 2);
+            System.out.println("Reading completed , Sync Started");
             DatagramSocket socket = new DatagramSocket(localPort);
-            System.out.println("Client started on port " + localPort);
-            while (true) {
-                if (!filesToSync.isEmpty()) {
-                    String filePath = filesToSync.poll();
-                    if (filePath != null) {
-                        byte[] fileName = cleanBytes(Path.of(filePath).getFileName().toString().getBytes());
-                        System.out.println("Sending file " + filePath);
-                        DatagramPacket packet = new DatagramPacket(fileName, fileName.length, host, port);
-                        socket.send(packet);
-                        SyncFile syncFile = new SyncFile(filePath);
-                        syncFile.breakDown();
-                        syncFile.send(socket, port, host);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        for (String filePath : filesToSync.keySet()) {
+                            if (filesToSync.get(filePath)) {
+                                SyncFile syncFile = new SyncFile(filePath);
+                                syncFile.breakDown();
+                                syncFile.send(socket, port, host);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            }
+            }, 0, FILE_CHECK_INTERVAL);
         } catch (Exception e) {
             e.printStackTrace();
         }

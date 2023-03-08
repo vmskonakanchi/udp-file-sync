@@ -4,12 +4,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class PacketReceiver extends Thread {
+public class PieceReceiver extends Thread {
     private byte[] dataToWrite;
-
     private final String filePath;
 
-    public PacketReceiver(String filePath, byte[] dataToWrite) {
+    public PieceReceiver(String filePath, byte[] dataToWrite) {
         this.filePath = filePath;
         this.dataToWrite = dataToWrite;
     }
@@ -31,14 +30,17 @@ public class PacketReceiver extends Thread {
         try {
             if (Files.exists(tempFilePath)) {
                 cleanBytes();
-                RandomAccessFile rFile = new RandomAccessFile(tempFilePath.toFile(), "rw");
+                RandomAccessFile rFile = new RandomAccessFile(tempFilePath.toFile(), "rws");
+                if (rFile.length() > 0) {
+                    rFile.setLength(0);
+                }
                 rFile.seek(rFile.length());
                 rFile.write(dataToWrite);
                 rFile.close();
             } else {
                 Files.createFile(tempFilePath);
                 cleanBytes();
-                RandomAccessFile rFile = new RandomAccessFile(tempFilePath.toFile(), "rw");
+                RandomAccessFile rFile = new RandomAccessFile(tempFilePath.toFile(), "rws");
                 rFile.seek(rFile.length());
                 rFile.write(dataToWrite);
                 rFile.close();
