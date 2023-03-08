@@ -5,21 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f53283f-567a-4896-8806-deb26f81626e" name="Changes" comment="Added Client and Server and other data structures">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ByteUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datatoync/abc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/datatoync/test1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/datatoync/test2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverDirectory/abc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverDirectory/test1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverDirectory/test2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/PieceSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/PieceSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/SyncFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/SyncFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/FileManager.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/PieceReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/PieceReceiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
     </list>

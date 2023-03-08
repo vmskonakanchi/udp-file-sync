@@ -18,20 +18,6 @@ public class SyncFile {
     private byte[] dataToSend;
     private final LinkedBlockingQueue<byte[]> pieces = new LinkedBlockingQueue<>();
 
-    private boolean changed = false;
-
-    public int getProgress() {
-        return progress;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setChanged(boolean changed) {
-        this.changed = changed;
-    }
-
     public SyncFile(String name) {
         Path path = Path.of(name);
         fileName = path.getFileName().toString();
@@ -73,6 +59,10 @@ public class SyncFile {
     public void send(DatagramSocket socket, int serverPort, InetAddress serverAddress) {
         if (socket.isClosed()) {
             System.out.println("Socket is closed or pieces are empty");
+            return;
+        }
+        if (pieces.isEmpty()) {
+            System.out.println("No pieces to send");
             return;
         }
         // send the file size to the client
